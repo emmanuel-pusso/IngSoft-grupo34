@@ -26,7 +26,19 @@ class eliminar_perfil extends controller {
             $chofer = $this->model_viaje->viaje_pendiente_chofer();
             $pendiente =$this->model_viaje->viaje_pendiente_pasajero();
             $aprobado =$this->model_viaje->viaje_aprobado_pasajero();
-            if(($chofer==TRUE)or($pendiente ==TRUE) or($aprobado==TRUE )){
+            
+            if($chofer<> FALSE){
+            $fecha_actual = date("d-m-Y");
+            $bool=FALSE;
+            foreach($chofer as $each){
+            $newDate = date("d-m-Y", strtotime($each['fecha']));
+            if((strtotime($fecha_actual) < strtotime($newDate))){
+                $bool=TRUE;
+            }
+            }
+                
+            }
+            if(($bool==TRUE)or($pendiente ==TRUE) or($aprobado==TRUE )){
              
                 $this->session->set_flashdata('error', 'POSEE VIAJES PENDIENTES. NO PODRÁ ELIMINAR SU PERFIL.');
                redirect('ver_perfil/mi_perfil'); 

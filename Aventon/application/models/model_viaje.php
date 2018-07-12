@@ -375,7 +375,17 @@ class model_viaje extends CI_Model {
         $this->db->where('id_chofer', $id);
         $this->db->where('estado', 0);
         $amount_results = $this->db->count_all_results('viaje');
-        return ($amount_results >= 1);
+        if ($amount_results >= 1){
+        $this->db->from('viaje');
+        $this->db->where('id_chofer', $id);
+        $this->db->where('estado', 0);
+        $consulta2 = $this->db->get();
+        $resultado2 = $consulta2->result_array();
+        return $resultado2;
+            }
+        else
+            { return FALSE;
+        }
     }
     
     public function viaje_pendiente_pasajero() {
